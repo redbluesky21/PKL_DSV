@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\validasi;
 use Intervention\Image\ImageManager;
+use Zxing\QrReader;
+use App\tandatangan;
+use App\sertifikat;
+
 
 class ValidasiController extends Controller
 {
@@ -33,12 +37,18 @@ class ValidasiController extends Controller
         return view('validasi.create');
     }
 
+    public function validasi()
+    {
+        return view('validasi.validasi');
+    }
+
     public function crop()
     {
+        
         $quality = 90;
 
-        $src  = Input::get('image');
-        $img  = imagecreatefromjpeg($src);
+        $src  = Input::get('ImageToValidate/image.png');
+        $img  = imagecreatefrompng($src);
         $dest = ImageCreateTrueColor(Input::get('w'),
             Input::get('h'));
         imagecopyresampled($dest, $img, 0, 0, Input::get('x'),
@@ -46,7 +56,7 @@ class ValidasiController extends Controller
             Input::get('w'), Input::get('h'));
         imagejpeg($dest, $src, $quality);
          //return <img src='" . $src . "'>";
-    return;
+        return view('validasi.crop');
     }
     /**
      * Store a newly created resource in storage.
@@ -54,6 +64,15 @@ class ValidasiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function QRDecode(Request $request)
+    {
+        $file->move($tujuan_upload,$filename);
+        $qrcode = new QrReader('QRcodesFromImage/TandaTangan_3.PNG');
+        $text = $qrcode->text(); //return decoded text from QR Code
+        $isi = $text;
+        return $isi;
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -76,9 +95,51 @@ class ValidasiController extends Controller
         //$file->move($tujuan_upload,$file->getClientOriginalName());
         //Menamai file dengan parameter $filename diatas
         $file->move($tujuan_upload,$filename);
-        $qrcode = new QrReader('path/to_image');
+        $qrcode = new QrReader('QRcodesFromImage/Event_Name.PNG');
         $text = $qrcode->text(); //return decoded text from QR Code
         $isi = $text;
+        echo '<br>';
+        echo $isi;
+        crop();
+        if($file->getClientOriginalExtension()=='PNG'){
+            //$nama_event = Sertifikat::where('isi', $value)->exists(); // this returns a true or false
+            if (Sertifikat::where('nama_sertifikat', '=', $isi)->exists()) {
+                $nama_event = TRUE;
+            }
+        }
+
+        //     $file->move($tujuan_upload,$filename);
+        //     $qrcode = new QrReader('QRcodesFromImage/TandaTangan_1.PNG');
+        //     $text = $qrcode->text(); //return decoded text from QR Code
+        //     $isi = $text;
+        //     echo $isi;
+
+        //     if (TandaTangan::where('isi', '=', Input::get('nama_lengkap'))->exists()) {
+        //         $tandatangan_1 = TRUE;
+        //     }
+        //     $file->move($tujuan_upload,$filename);
+        //     $qrcode = new QrReader('QRcodesFromImage/TandaTangan_2.PNG');
+        //     $text = $qrcode->text(); //return decoded text from QR Code
+        //     $isi = $text;
+        //     echo $isi;
+
+        //     if (TandaTangan::where('isi', '=', Input::get('nama_lengkap'))->exists()) {
+        //         $tandatangan_2 = TRUE;
+        //     }        
+            
+        //     $file->move($tujuan_upload,$filename);
+        //     $qrcode = new QrReader('QRcodesFromImage/TandaTangan_3.PNG');
+        //     $text = $qrcode->text(); //return decoded text from QR Code
+        //     $isi = $text;
+        //     echo $isi;
+
+        //     if (TandaTangan::where('isi', '=', Input::get('nama_lengkap'))->exists()) {
+        //         $tandatangan_3 = TRUE;
+        //     }
+        // }
+
+
+
         //$file->storeAs($tujuan_upload, 'hi');
         // $file = Input::('Images');
         // Input::file('photo')->move($tujuan_upload, $fileName);
@@ -137,10 +198,65 @@ class ValidasiController extends Controller
         //                 $width, $height);
         // imagejpeg($thumb, $filename, 80);
         // $thumb->move($tujuan_upload,$filename2);
-
-        return redirect()->route('validasi.index')->with('success', 'Data Added');
+        return view('validasi.index')->with('success','Data Added');
+        //return redirect()->route('validasi.index')->with('success', 'Data Added');
         
 
+    }
+    
+    public function uploadImage(Request $request){
+    	$arr = [];
+		if($request->hasFile('file')) {
+			list($width, $height) = getimagesize($request->file);
+			$arr['width'] = $width;
+			$arr['height'] = $height;
+			$arr['file'] = $request->file->getClientOriginalName();
+			if($width > 1000) {
+				Image::make($request->file->getRealPath())->resize(1000,null, function($constraint){
+					$constraint->aspectRatio();
+				})->save(public_path('uploads/'.$arr['file']));
+				$arr['width'] = 1000;
+			}
+			else {
+				Image::make($request->file->getRealPath())->save(public_path('uploads/'.$arr['file']));
+			}
+		}
+		else {
+			$arr['error'] = "No Image Uploaded";
+ 
+		}
+		echo json_encode($arr);
+    }
+
+    public function saveCroppedImage(Request $request){
+        // Get The Necessary inputs
+    	$cin_crop_width = $request->w;
+    	$cin_crop_height = $request->h;
+    	$cin_crop_x_axis = $request->x;
+    	$cin_crop_y_axis = $request->y;
+    	$image_name = $request->file;
+
+    	// If you want to create a jpeg image
+    	header('Content-type: image/jpeg');
+    	$jpeg_image_quality = 90;
+    	$source_image = public_path('ImageToValidate/image.jpg');
+    	$cin_new_image = imagecreatefromjpeg($source_image);
+    	$cin_new_image_mirror = ImageCreateTrueColor( $cin_crop_width, $cin_crop_height );
+    	imagecopyresampled($cin_new_image_mirror,$cin_new_image,0,0,$cin_crop_x_axis,$cin_crop_y_axis,$cin_crop_width, $cin_crop_height, $cin_crop_width, $cin_crop_height);
+    	$destination = public_path('uploads/'."cropped_".$image_name);
+    	imagejpeg($cin_new_image_mirror, $destination, $jpeg_image_quality);
+
+    	 //If you want to create a png image
+     	header('Content-type: image/png');
+     	$source_image = public_path('ImageToValidate/image.png');
+     	$cin_new_image = imagecreatefrompng($source_image);
+     	$cin_new_image_mirror = ImageCreateTrueColor( $cin_crop_width, $cin_crop_height );
+     	imagesavealpha($cin_new_image_mirror, TRUE);
+     	$empty = imagecolorallocatealpha($cin_new_image_mirror,0x00,0x00,0x00,127);
+		imagefill($cin_new_image_mirror, 0, 0, $empty);
+     	imagecopyresampled($cin_new_image_mirror,$cin_new_image,0,0,$cin_crop_x_axis,$cin_crop_y_axis,$cin_crop_width, $cin_crop_height, $cin_crop_width, $cin_crop_height);
+     	$destination = public_path('uploads/'."cropped_".$image_name);
+     	imagepng($cin_new_image_mirror, $destination);
     }
     /**
      * Display the specified resource.

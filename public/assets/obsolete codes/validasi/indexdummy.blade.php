@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="{{ url('jcrop') }}/jquery.Jcrop.min.css">
+<script src="{{ url('jcrop') }}/upload.js"></script>
+<script src="{{ url('jcrop') }}/jquery.Jcrop.min.js"></script>
 
 <div class="container">
         <div class="row">
@@ -22,8 +25,9 @@
                         {{-- <th>File</th> --}}
                         {{-- <th>Validate</th> --}}
                         <div align="center">
-                            <a href="{{route('validasi.validasi')}}" class="btn btn-primary"> Validate </a>
-                            <br />
+                            {{-- <a href="{{route('validasi.validasi')}}" class="btn btn-primary"> Validate </a>
+                            <br /> --}}
+                            <button class="btn btn-primary" id="crop">Crop</button>
                         </div>
                     </tr>
                     @foreach($validasis as $row)
@@ -39,7 +43,7 @@
                     </tr>
                     @endforeach
                 </table>
-        </div>
+        </div>n
     </div>
 </div>
 

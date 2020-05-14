@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Welcome</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -12,7 +12,11 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                background: url("/assets/images/bgtop.png");
                 color: #636b6f;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
@@ -45,7 +49,12 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 43px;
+            }
+
+            .title2{
+                font-size: 30px;
+                color: #e7e7e7;
             }
 
             .links > a {
@@ -61,6 +70,19 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .btn2{
+                font-size: 43px;
+                background-color: white;
+                color: black;
+                border-radius: 42px;
+                padding: 50% auto
+            }
+            .btn2:hover {
+                background-color: #e7e7e7; color: black;
+                color: black;
+            }
+            
         </style>
     </head>
     <body>
@@ -81,19 +103,20 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    <b> DIGITAL CERTIFICATE VALIDATION </b>
+                 </div>                                         
+                <div>
+                    <a href="{{ route('login') }}">
+                    <img src="{{URL::asset('/assets/images/DIlogo.png')}}" alt="logo diskominfo batu" height="auto" width="25%">
+                    </a>
                 </div>
+                <div class="title2 m-b-md">
+                    <a href="https://diskominfo.batukota.go.id/" style="text-decoration: none;color: white;">
+                    <img src="{{URL::asset('/assets/images/KBlogo.png')}}" alt="logo kabupaten batu" height="auto" width="20px">
+                    <b> DINAS KOMUNIKASI DAN INFORMATIKA KOTA BATU </b>
+                    </a>
+                 </div>  
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
             </div>
         </div>
     </body>

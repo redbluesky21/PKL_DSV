@@ -17,7 +17,7 @@
                     <a href="{{route('tandatangan.create')}}" class="btn btn-primary"> Add </a>
                     <br />
                 </div>
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="background-color:white">
                     <tr>
                         <th>Nama lengkap</th>
                         <th>NIP</th>

@@ -20,31 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-//Route::get('/passwordtoken','PasswordTokensController@index');
-//Route::resource('password', 'PasswordTokensController@update');
 Route::resource('tandatangan', 'TandaTanganController');
 Route::resource('sertifikat', 'SertifikatController');
-Route::resource('validasi', 'ValidasiController');
-// Route::get('/validasi', 'ValidasiController@store');
-// Route::post('/validasi/proses', 'ValidasiController@proses_upload');
-Route::get('jcrop', function()
-{
-    return View::make('jcrop')->with('image', 'images/'. Session::get('image'));
-});
-Route::post('jcrop', function()
-{
-    $quality = 90;
-
-    $src  = Input::get('image');
-    $img  = imagecreatefromjpeg($src);
-    $dest = ImageCreateTrueColor(Input::get('w'),
-        Input::get('h'));
-
-    imagecopyresampled($dest, $img, 0, 0, Input::get('x'),
-        Input::get('y'), Input::get('w'), Input::get('h'),
-        Input::get('w'), Input::get('h'));
-    imagejpeg($dest, $src, $quality);
-
-    return "<img src='" . $src . "'>";
-    //return;
-});
+Route::get('resizeImage', 'ImageController@resizeImage');
+Route::post('resizeImagePost',['as'=>'resizeImagePost','uses'=>'ImageController@resizeImagePost']);
