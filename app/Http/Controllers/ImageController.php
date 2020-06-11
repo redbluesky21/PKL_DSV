@@ -20,9 +20,9 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function resizeImage()
+    public function imageUpload()
     {
-    	return view('resizeImage');
+    	return view('imageUpload');
     }
 
 
@@ -31,7 +31,7 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function resizeImagePost(Request $request)
+    public function imageUploadPost(Request $request)
     {
 	    $this->validate($request, [
 	    	'title' => 'required',

@@ -58,7 +58,7 @@
 @endif
 
 
-{!! Form::open(array('route' => 'resizeImagePost','enctype' => 'multipart/form-data')) !!}
+{!! Form::open(array('route' => 'imageUploadPost','enctype' => 'multipart/form-data')) !!}
 	<div class="row">
 		<div class="col-md-4">
 			<br/>
