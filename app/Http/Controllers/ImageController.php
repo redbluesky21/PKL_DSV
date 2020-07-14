@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Intervention\Image\ImageManager;
 use Image;
+use Zxing\QrReader;
+use App\Http\Controllers\TandaTanganController;
 
-
-class ImageController extends Controller
+class ImageController extends TandaTanganController
 {
     public function __construct()
     {
@@ -91,9 +92,46 @@ class ImageController extends Controller
 
 
         return back()
-        	->with('success','Image Upload successful')
+        	->with('success','Gambar Berhasil di Upload!')
         	->with('imageName',$input['imagename']);
     }
 
+    public static function geteventname($request)
+    {
+        $imagePath = public_path("\images\\kegiatan\\$request");
+        $qrcode = new QrReader("$imagePath");
+        $text = $qrcode->text(); //return decoded text from QR Code
+        echo $text;
+        // $valid = "Valid";
+        // $invalid ="INVALID";
+        // if (User::where('email', '=', Input::get('email'))->exists()) {
+        //     // user found
+        //  }
+        
+    }
+
+    public static function getttd1($request)
+    {
+        $imagePath = public_path("\images\\ttd1\\$request");
+        $qrcode = new QrReader("$imagePath");
+        $text = $qrcode->text(); //return decoded text from QR Code
+        echo $text;
+    }
+    
+    public static function getttd2($request)
+    {
+        $imagePath = public_path("\images\\ttd2\\$request");
+        $qrcode = new QrReader("$imagePath");
+        $text = $qrcode->text(); //return decoded text from QR Code
+        echo $text;
+    }    
+    
+    public static function getttd3($request)
+    {
+        $imagePath = public_path("\images\\ttd3\\$request");
+        $qrcode = new QrReader("$imagePath");
+        $text = $qrcode->text(); //return decoded text from QR Code
+        echo $text;
+    }
 
 }

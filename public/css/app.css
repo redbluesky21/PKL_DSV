@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);
+@charset "UTF-8";
 
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
@@ -71,6 +72,7 @@ body {
   -o-background-size: cover;
   background-size: cover;
   background: url("/assets/images/bg.png");
+  
   margin: 0;
   font-family: "Nunito", sans-serif;
   font-size: 0.9rem;
@@ -219,8 +221,40 @@ img {
   border-style: none;
 }
 
+/*  start */ 
+.img1{
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+div.polaroid2 {
+  width: 80%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.container4 {
+    height: 10em;
+    position: relative }
+
+.container4 p {
+    margin: 0;
+    background: yellow;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) }
+
+div.container2 {
+  text-align: center;
+  padding: 10px 20px;
+}
+/* end  */
 img.logomid{
-  max-width: 500%;
+  max-width: 400%;
   height: auto;
 }
 

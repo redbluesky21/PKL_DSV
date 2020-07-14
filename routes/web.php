@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('tandatangan', 'TandaTanganController');
+Route::resource('image', 'ImageUploadController');
 Route::resource('sertifikat', 'SertifikatController');
 Route::get('imageUpload', 'ImageController@imageUpload');
 Route::post('imageUploadPost',['as'=>'imageUploadPost','uses'=>'ImageController@imageUploadPost']);
